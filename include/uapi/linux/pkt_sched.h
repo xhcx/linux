@@ -575,6 +575,8 @@ enum {
 	TCA_NETEM_REORDER,
 	TCA_NETEM_CORRUPT,
 	TCA_NETEM_LOSS,
+	TCA_NETEM_PATTERN,
+	TCA_NETEM_PTYPE,
 	TCA_NETEM_RATE,
 	TCA_NETEM_ECN,
 	TCA_NETEM_RATE64,
@@ -592,6 +594,7 @@ struct tc_netem_qopt {
 	__u32	latency;	/* added delay (us) */
 	__u32   limit;		/* fifo limit (packets) */
 	__u32	loss;		/* random packet loss (0=none ~0=100%) */
+	__u32	fwmark;		/* traffic to apply effects on (0 for all) */
 	__u32	gap;		/* re-ordering gap (0 for none) */
 	__u32   duplicate;	/* random packet dup  (0=none ~0=100%) */
 	__u32	jitter;		/* random jitter in latency (us) */
@@ -653,6 +656,19 @@ struct tc_netem_gemodel {
 	__u32 h;
 	__u32 k1;
 };
+
+/* KauNetEm patterns */
+#define PTN_MODE		0xff00
+#define PTN_MODE_DATA		0x1000
+#define PTN_MODE_TIME		0x0100
+
+#define PTN_EFFECT		0x00ff
+#define PTN_EFFECT_LOSS		0x0001
+#define PTN_EFFECT_DELAY	0x0002
+#define PTN_EFFECT_RATE		0x0004
+#define PTN_EFFECT_ERROR	0x0008
+#define PTN_EFFECT_DUP		0x0010
+#define PTN_EFFECT_REORDER	0x0020
 
 #define NETEM_DIST_SCALE	8192
 #define NETEM_DIST_MAX		16384
